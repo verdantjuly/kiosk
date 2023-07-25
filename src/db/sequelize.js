@@ -6,6 +6,7 @@ const env = process.env;
 
 const sequelize = new Sequelize({
   username: env.MYSQL_USERNAME,
+  port: env.MYSQL_PORT,
   password: env.MYSQL_PASSWORD,
   database: env.MYSQL_DATABASE,
   host: env.MYSQL_HOST,
