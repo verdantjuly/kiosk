@@ -1,0 +1,21 @@
+{
+  "name": "kiosk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "type":"module",
+  "scripts": {
+    "start": "node src/init.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mysql2": "^3.5.2",
+    "sequelize": "^6.32.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.0",
+    "sequelize-cli": "^6.6.1"
+  }
+}
