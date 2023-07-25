@@ -1,4 +1,4 @@
-##items
+## items
 
 상품 추가 API  
 POST api/items
@@ -15,7 +15,7 @@ DELETE api/items/1
 상품 수정 API  
 PATCH api/items/1
 
-##orders
+## orders
 
 상품 발주 API  
 POST api/orders
@@ -23,7 +23,7 @@ POST api/orders
 발주 상태 수정 API  
 PATCH api/orders/1
 
-##receipts
+## receipts
 
 상품 주문 API  
 POST api/receipts
