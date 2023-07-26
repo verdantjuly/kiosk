@@ -6,6 +6,6 @@ const router = Router();
 const itemsController = new ItemsController();
 
 router.post('/items', itemsController.makeItem);
-// router.get('/items', itemsController.getItemList);
+router.get('/items', itemsController.getItemList);
 
 export default router;

@@ -27,5 +27,27 @@ class ItemsService {
       return messages.status400();
     }
   };
+  getItemList = async category => {
+    const messages = new Messages('상품 조회');
+    try {
+      if (category == 'all') {
+        const allItemList = await this.itemsRepository.getAllItemList();
+        return {
+          status: 200,
+          message: '전체 상품이 조회되었습니다.',
+          list: allItemList,
+        };
+      } else {
+        const itemList = await this.itemsRepository.getItemList(category);
+        return {
+          status: 200,
+          message: `${category} 타입의 상품이 조회되었습니다.`,
+          list: itemList,
+        };
+      }
+    } catch (err) {
+      return messages.status400;
+    }
+  };
 }
 export default ItemsService;

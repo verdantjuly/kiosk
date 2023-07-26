@@ -11,8 +11,14 @@ class ItemsController {
       price,
       type,
     );
-
     return res.status(status).json({ message });
+  };
+  getItemList = async (req, res) => {
+    const { category } = req.query;
+    const { status, message, list } = await this.itemsService.getItemList(
+      category,
+    );
+    return res.status(status).json({ message, list });
   };
 }
 
