@@ -34,6 +34,16 @@ class ItemsController {
     );
     return res.status(status).json({ message });
   };
+  editItem = async (req, res) => {
+    const { id } = req.params;
+    const { name, price } = req.body;
+    const { status, message } = await this.itemsService.editItem(
+      id,
+      name,
+      price,
+    );
+    return res.status(status).json({ message });
+  };
 }
 
 export default ItemsController;

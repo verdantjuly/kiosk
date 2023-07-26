@@ -8,7 +8,6 @@ class ItemsService {
     const messages = new Messages('상품 추가');
 
     try {
-      console.log(type);
       if (!name.length) {
         return noname.nosubject();
       } else if (!price) {
@@ -19,9 +18,12 @@ class ItemsService {
           message: '알맞은 타입을 지정해 주세요.',
         };
       }
+
       const item = await this.itemsRepository.makeItem(name, price, type);
       if (item.name) {
         return messages.status200();
+      } else {
+        return messages.status400();
       }
     } catch (err) {
       return messages.status400();
@@ -76,6 +78,31 @@ class ItemsService {
         if (removeItem) {
           return messages.status200();
         }
+      } else {
+        return messages.status400();
+      }
+    } catch (err) {
+      return messages.status400();
+    }
+  };
+  editItem = async (id, name, price) => {
+    const messages = new Messages('상품 수정');
+
+    try {
+      if (!name.length) {
+        return noname.nosubject();
+      } else if (!price) {
+        return noprice.nosubject();
+      } else if (price < 0) {
+        return {
+          status: 400,
+          message: '알맞은 가격을 입력해주세요.',
+        };
+      }
+
+      const item = await this.itemsRepository.editItem(id, name, price);
+      if (item) {
+        return messages.status200();
       } else {
         return messages.status400();
       }
