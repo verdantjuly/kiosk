@@ -22,6 +22,14 @@ class ItemsRepository {
 
     return itemList;
   };
+  checkamount = async id => {
+    const checkItem = await Items.findByPk(id);
+    return checkItem;
+  };
+  removeItem = async id => {
+    const removeItem = await Items.destroy({ where: { id } });
+    return removeItem;
+  };
 }
 
 export default ItemsRepository;

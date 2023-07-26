@@ -49,5 +49,39 @@ class ItemsService {
       return messages.status400;
     }
   };
+  removeItem = async id => {
+    const messages = new Messages('상품 삭제');
+    try {
+      const checkItem = await this.itemsRepository.checkamount(id);
+      if (checkItem.amount > 0) {
+        return {
+          status: 200,
+          message: '현재 수량이 남아있습니다. 삭제하시겠습니까?',
+        };
+      } else if (checkItem.amount == 0) {
+        const removeItem = await this.itemsRepository.removeItem(id);
+        if (removeItem) {
+          return messages.status200();
+        }
+      }
+    } catch (err) {
+      return messages.status400();
+    }
+  };
+  answerRemoveItem = async (id, answer) => {
+    const messages = new Messages('상품 삭제');
+    try {
+      if (answer == '예') {
+        const removeItem = await this.itemsRepository.removeItem(id);
+        if (removeItem) {
+          return messages.status200();
+        }
+      } else {
+        return messages.status400();
+      }
+    } catch (err) {
+      return messages.status400();
+    }
+  };
 }
 export default ItemsService;

@@ -20,6 +20,20 @@ class ItemsController {
     );
     return res.status(status).json({ message, list });
   };
+  removeItem = async (req, res) => {
+    const { id } = req.params;
+    const { status, message } = await this.itemsService.removeItem(id);
+    return res.status(status).json({ message });
+  };
+  answerRemoveItem = async (req, res) => {
+    const { id } = req.params;
+    const { answer } = req.body;
+    const { status, message } = await this.itemsService.answerRemoveItem(
+      id,
+      answer,
+    );
+    return res.status(status).json({ message });
+  };
 }
 
 export default ItemsController;
