@@ -1,5 +1,6 @@
 import Messages from './message.js';
 import ItemsRepository from '../repositories/items.repository.js';
+import Enum from '../db/models/enum.js';
 const noname = new Messages('이름');
 const noprice = new Messages('가격');
 class ItemsService {
@@ -12,25 +13,29 @@ class ItemsService {
         return noname.nosubject();
       } else if (!price) {
         return noprice.nosubject();
-      } else if (!['COFFEE', 'JUICE', 'FOOD'].includes(type)) {
+      } else if (Enum.itemTypes[type] == undefined) {
         return {
           status: 400,
           message: '알맞은 타입을 지정해 주세요.',
         };
       }
 
-      const item = await this.itemsRepository.makeItem(name, price, type);
+      const item = await this.itemsRepository.makeItem(
+        name,
+        price,
+        Enum.itemTypes[type],
+      );
       if (item.name) {
         return messages.status200();
       } else {
         return messages.status400();
       }
     } catch (err) {
+      console.log(err);
       return messages.status400();
     }
   };
   getItemList = async category => {
-    const messages = new Messages('상품 조회');
     try {
       if (category == 'all') {
         const allItemList = await this.itemsRepository.getAllItemList();
@@ -48,7 +53,11 @@ class ItemsService {
         };
       }
     } catch (err) {
-      return messages.status400;
+      return {
+        status: 400,
+        message: '상품 조회에 실패하였습니다.',
+        list: null,
+      };
     }
   };
   removeItem = async id => {

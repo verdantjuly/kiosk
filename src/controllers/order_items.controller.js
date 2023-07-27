@@ -13,5 +13,16 @@ class Order_ItemsController {
     );
     return res.status(status).json({ message, order });
   };
+  editOrderState = async (req, res) => {
+    const { item_id, id } = req.params;
+    const { state } = req.body;
+
+    const { status, message } = await this.order_itemsService.editOrderState(
+      item_id,
+      id,
+      state,
+    );
+    return res.status(status).json({ message });
+  };
 }
 export default Order_ItemsController;
