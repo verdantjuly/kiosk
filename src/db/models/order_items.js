@@ -1,16 +1,14 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../sequelize.js';
 
-class Items extends Model {}
+class Order_Items extends Model {}
 
-Items.init(
+Order_Items.init(
   {
     id: { type: DataTypes.BIGINT, autoIncrement: true, primaryKey: true },
-    name: DataTypes.STRING,
-    option_id: { type: DataTypes.BIGINT, defaultValue: 0 },
-    price: DataTypes.BIGINT,
-    type: { type: DataTypes.ENUM, values: ['COFFEE', 'JUICE', 'FOOD'] },
+    item_id: DataTypes.BIGINT,
     amount: { type: DataTypes.BIGINT, defaultValue: 0 },
+    state: { type: DataTypes.BIGINT, defaultValue: 0 },
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
@@ -22,8 +20,8 @@ Items.init(
   },
   {
     sequelize,
-    modelName: 'Items',
+    modelName: 'Order_Items',
   },
 );
 
-export default Items;
+export default Order_Items;
