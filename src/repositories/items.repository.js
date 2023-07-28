@@ -1,4 +1,5 @@
 import Items from '../db/models/items.js';
+import Options from '../db/models/options.js';
 
 class ItemsRepository {
   findid = async item_id => {
@@ -6,11 +7,17 @@ class ItemsRepository {
     return findid;
   };
 
-  makeItem = async (name, price, type) => {
+  findoption = async option_id => {
+    const option = await Options.findByPk(option_id);
+    return option;
+  };
+
+  makeItem = async (name, price, type, option_id) => {
     const item = await Items.create({
       name,
       price,
       type,
+      option_id,
     });
 
     return item;

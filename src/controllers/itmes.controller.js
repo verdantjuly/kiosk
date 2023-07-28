@@ -4,12 +4,13 @@ class ItemsController {
   itemsService = new ItemsService();
 
   makeItem = async (req, res) => {
-    const { name, price, type } = req.body;
+    const { name, price, type, option_id } = req.body;
 
     const { status, message } = await this.itemsService.makeItem(
       name,
       price,
       type,
+      option_id,
     );
     return res.status(status).json({ message });
   };

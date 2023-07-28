@@ -4,12 +4,13 @@ import Enum from '../db/models/enum.js';
 const noid = new Messages('정확한 상품 id');
 const noname = new Messages('이름');
 const noprice = new Messages('가격');
+const nooption = new Messages('정확한 옵션');
 class ItemsService {
   itemsRepository = new ItemsRepository();
-  makeItem = async (name, price, type) => {
+  makeItem = async (name, price, type, option_id) => {
     const messages = new Messages('상품 추가');
-
     try {
+      const option = await this.itemsRepository.findoption(option_id);
       if (!name.length) {
         return noname.nosubject();
       } else if (!price) {
@@ -19,12 +20,15 @@ class ItemsService {
           status: 400,
           message: '알맞은 타입을 지정해 주세요.',
         };
+      } else if (!option) {
+        return nooption.nosubject();
       }
 
       const item = await this.itemsRepository.makeItem(
         name,
         price,
         Enum.itemTypes[type],
+        option_id,
       );
       if (item.name) {
         return messages.status200();
