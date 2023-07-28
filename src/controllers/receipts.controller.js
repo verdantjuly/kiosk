@@ -11,5 +11,16 @@ class ReceiptsController {
     );
     return res.status(status).json({ message, totalprice });
   };
+
+  changestate = async (req, res) => {
+    const { order_customer_id } = req.params;
+    const { order } = req.body;
+
+    const { status, message } = await this.receiptsService.changestate(
+      order_customer_id,
+      order,
+    );
+    return res.status(status).json({ message });
+  };
 }
 export default ReceiptsController;

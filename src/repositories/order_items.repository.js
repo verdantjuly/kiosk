@@ -48,11 +48,11 @@ class Order_ItemsRepository {
         { transaction: t },
       );
       await t.commit();
-      return { result: 1, nextstate: orderUpdate };
+      return 1;
     } catch (err) {
       console.log(err);
       await t.rollback();
-      return { result: 0, nextstate: null };
+      return 0;
     }
   };
 }

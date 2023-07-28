@@ -77,7 +77,7 @@ class Order_ItemsService {
             Enum.orderItemState[state],
             updateamount,
           );
-        if (pendingToCompleted.result == 1) {
+        if (pendingToCompleted == 1) {
           return messages.status200();
         }
       } else if (
@@ -100,7 +100,7 @@ class Order_ItemsService {
             Enum.orderItemState[state],
             updateamount,
           );
-        if (pendingToCompleted.result == 1) {
+        if (pendingToCompleted == 1) {
           return messages.status200();
         }
       } else {

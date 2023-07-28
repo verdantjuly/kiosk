@@ -4,6 +4,7 @@ import ReceiptsRepository from '../repositories/receipts.repository.js';
 const noid = new Messages('정확한 상품 id');
 const noamount = new Messages('정확한 수량');
 const nooption = new Messages('정확한 옵션');
+const noorderid = new Messages('정확한 주문 id');
 
 class ReceiptsService {
   receiptsRepository = new ReceiptsRepository();
@@ -51,6 +52,61 @@ class ReceiptsService {
         message: '주문에 실패하였습니다.',
         totalprice: null,
       };
+    }
+  };
+
+  changestate = async (order_customer_id, order) => {
+    const changestateM = new Messages('상품 주문 수정');
+    try {
+      const findorder = await this.receiptsRepository.findorder(
+        order_customer_id,
+      );
+      if (!findorder) {
+        return noorderid.nosubject();
+      }
+
+      if (order == 'COMPLETED') {
+        let finddetailorder = await this.receiptsRepository.finddetailorder(
+          order_customer_id,
+        );
+
+        let changestate = 0;
+        for (let i = 0; i < finddetailorder.length; i++) {
+          const id = finddetailorder[i].item_id;
+          const finditem = await this.receiptsRepository.finditem(id);
+          const amount = finditem.amount - finddetailorder[i].amount;
+          changestate = await this.receiptsRepository.changestate(
+            order_customer_id,
+            id,
+            amount,
+          );
+        }
+
+        if (changestate == 1) {
+          return changestateM.status200();
+        } else {
+          return changestateM.status400();
+        }
+      } else if (order == 'CANCELED') {
+        if (findorder.state === true) {
+          return {
+            status: 400,
+            message: '완료된 주문은 취소할 수 없습니다.',
+          };
+        }
+        const removeorder = await this.receiptsRepository.removeorder(
+          order_customer_id,
+        );
+        if (removeorder == 1) {
+          return changestateM.status200();
+        } else {
+          console.log(rollback);
+          return changestateM.status400();
+        }
+      }
+    } catch (err) {
+      console.log(err);
+      return changestateM.status400();
     }
   };
 }
