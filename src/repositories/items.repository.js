@@ -1,6 +1,11 @@
 import Items from '../db/models/items.js';
 
 class ItemsRepository {
+  findid = async item_id => {
+    const findid = await Items.findByPk(item_id);
+    return findid;
+  };
+
   makeItem = async (name, price, type) => {
     const item = await Items.create({
       name,

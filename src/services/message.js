@@ -21,6 +21,13 @@ class Messages {
       message: `${this.message}을 입력해 주세요.`,
     };
   }
+  nobuy() {
+    return {
+      status: 400,
+      message: `${this.message}를 입력해 주세요.`,
+      totalprice: null,
+    };
+  }
 }
 
 export default Messages;

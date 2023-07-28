@@ -1,7 +1,7 @@
 import Messages from './message.js';
 import Order_ItemsRepository from '../repositories/order_items.repository.js';
 import Enum from '../db/models/enum.js';
-const noid = new Messages('상품 id');
+const noid = new Messages('정확한 상품 id');
 const noamount = new Messages('수량');
 const noorderid = new Messages('발주 id');
 const nostate = new Messages('상품 상태');
@@ -12,7 +12,8 @@ class Order_ItemsService {
     const messages = new Messages('상품 발주');
 
     try {
-      if (!item_id) {
+      const findid = await this.order_itemRepository.findid(item_id);
+      if (!item_id || !findid) {
         return noid.nosubject();
       } else if (!amount) {
         return noamount.nosubject();
@@ -36,7 +37,8 @@ class Order_ItemsService {
   editOrderState = async (item_id, id, state) => {
     const messages = new Messages('상품 발주 상태 수정');
     try {
-      if (!item_id) {
+      const findid = await this.order_itemRepository.findid(item_id);
+      if (!item_id || !findid) {
         return noid.nosubject();
       } else if (!id) {
         return noorderid.nosubject();

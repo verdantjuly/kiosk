@@ -4,6 +4,11 @@ import { Transaction } from 'sequelize';
 import sequelize from '../db/sequelize.js';
 
 class Order_ItemsRepository {
+  findid = async item_id => {
+    const findid = await Items.findByPk(item_id);
+    return findid;
+  };
+
   makeOrder = async (item_id, amount) => {
     const order = await Order_Items.create({
       item_id,

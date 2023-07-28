@@ -1,6 +1,7 @@
 import Messages from './message.js';
 import ItemsRepository from '../repositories/items.repository.js';
 import Enum from '../db/models/enum.js';
+const noid = new Messages('정확한 상품 id');
 const noname = new Messages('이름');
 const noprice = new Messages('가격');
 class ItemsService {
@@ -96,9 +97,11 @@ class ItemsService {
   };
   editItem = async (id, name, price) => {
     const messages = new Messages('상품 수정');
-
+    const findid = await this.order_itemRepository.findid(item_id);
     try {
-      if (!name.length) {
+      if (!findid) {
+        return noid.nosubject();
+      } else if (!name.length) {
         return noname.nosubject();
       } else if (!price) {
         return noprice.nosubject();

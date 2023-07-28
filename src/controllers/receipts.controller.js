@@ -6,8 +6,10 @@ class ReceiptsController {
   buy = async (req, res) => {
     const { order } = req.body;
 
-    const { status, message } = await this.receiptsService.buy(order);
-    return res.status(status).json({ message });
+    const { status, message, totalprice } = await this.receiptsService.buy(
+      order,
+    );
+    return res.status(status).json({ message, totalprice });
   };
 }
 export default ReceiptsController;

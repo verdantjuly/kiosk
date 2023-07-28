@@ -18,9 +18,9 @@ class ReceiptsRepository {
     });
     return order;
   };
-  findprice = async item_id => {
-    const findprice = await Items.findOne({ where: { id: item_id } });
-    return findprice;
+  finditem = async item_id => {
+    const finditem = await Items.findByPk(item_id);
+    return finditem;
   };
 }
 export default ReceiptsRepository;

@@ -1,6 +1,10 @@
 import Messages from './message.js';
 import ReceiptsRepository from '../repositories/receipts.repository.js';
-const noorder = new Messages('주문');
+
+const noid = new Messages('정확한 상품 id');
+const noamount = new Messages('정확한 수량');
+const nooption = new Messages('정확한 옵션');
+
 class ReceiptsService {
   receiptsRepository = new ReceiptsRepository();
   buy = async order => {
@@ -14,17 +18,25 @@ class ReceiptsService {
 
         const order_customer_id = receipt.id;
 
-        const findprice = await this.receiptsRepository.findprice(item_id);
+        const finditem = await this.receiptsRepository.finditem(item_id);
+
+        if (!finditem) {
+          return noid.nosubject();
+        } else if (!amount) {
+          return noamount.nosubject();
+        } else if (!option) {
+          return nooption.nosubject();
+        }
 
         const orderlog = await this.receiptsRepository.order(
           order_customer_id,
           item_id,
           amount,
           option,
-          findprice.price * amount,
+          finditem.price * amount,
         );
 
-        totalprice = totalprice + findprice.price * amount;
+        totalprice = totalprice + finditem.price * amount;
       }
 
       return {

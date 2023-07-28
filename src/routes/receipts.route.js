@@ -6,5 +6,6 @@ const router = Router();
 const receiptsController = new ReceiptsController();
 
 router.post('/receipts', receiptsController.buy);
+router.patch('/receipts', receiptsController.buy);
 
 export default router;

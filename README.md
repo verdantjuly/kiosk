@@ -31,6 +31,11 @@ POST api/receipts
 상품 주문 수정 API  
 PATCH api/receipts/1
 
+## options
+
+상품 옵션 추가 API
+POST api/items/1/options
+
 ## Directory Structure
 
 ```
