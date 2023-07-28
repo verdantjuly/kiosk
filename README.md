@@ -45,27 +45,36 @@ kiosk
    ├─ app.js
    ├─ controllers
    │  ├─ itmes.controller.js
-   │  └─ order_items.controller.js
+   │  ├─ order_items.controller.js
+   │  └─ receipts.controller.js
    ├─ db
    │  ├─ index.js
    │  ├─ models
+   │  │  ├─ enum.js
+   │  │  ├─ item_order_customers.js
    │  │  ├─ items.js
+   │  │  ├─ order_customers.js
    │  │  └─ order_items.js
    │  ├─ relations
    │  │  ├─ index.js
+   │  │  ├─ item_order_customers.relation.js
    │  │  ├─ items.relation.js
+   │  │  ├─ order_customers.relation.js
    │  │  └─ order_items.relation.js
    │  └─ sequelize.js
    ├─ init.js
    ├─ repositories
    │  ├─ items.repository.js
-   │  └─ order_items.repository.js
+   │  ├─ order_items.repository.js
+   │  └─ receipts.repository.js
    ├─ routes
    │  ├─ items.route.js
-   │  └─ order_items.route.js
+   │  ├─ order_items.route.js
+   │  └─ receipts.route.js
    └─ services
       ├─ items.service.js
       ├─ message.js
-      └─ order_items.repository.js
+      ├─ order_items.service.js
+      └─ receipts.service.js
 
 ```
