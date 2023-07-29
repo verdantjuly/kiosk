@@ -15,6 +15,7 @@ class OptionsRepository {
   };
   getoptions = async () => {
     const options = await Options.findAll();
+    return options;
   };
 }
 export default OptionsRepository;

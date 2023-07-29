@@ -8,7 +8,7 @@ import myCache from './cache.js';
 
 export class ExpressApp {
   app = express();
-
+  optionsRepository = new OptionsRepository();
   constructor() {
     this.setAppSettings();
     this.setAppRouter();
@@ -16,8 +16,7 @@ export class ExpressApp {
 
   setAppSettings = async () => {
     this.app.use(express.json());
-    const optionsRepository = new OptionsRepository();
-    const options = optionsRepository.getoptions;
+    const options = await this.optionsRepository.getoptions();
     const success = myCache.set('options', options, 10000);
     if (success) {
       console.log('cache success');
