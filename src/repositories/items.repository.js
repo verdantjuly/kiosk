@@ -1,5 +1,6 @@
 import Items from '../db/models/items.js';
 import Options from '../db/models/options.js';
+import myCache from '../cache.js';
 
 class ItemsRepository {
   findid = async item_id => {
@@ -24,17 +25,17 @@ class ItemsRepository {
   };
 
   getAllItemList = async () => {
-    const allItemList = await Items.findAll();
-
-    return allItemList;
+    let allItemList = await Items.findAll();
+    let result = myCache.get('options');
+    return { allItemList, result };
   };
 
   getItemList = async category => {
     const itemList = await Items.findAll({
       where: { type: category },
     });
-
-    return itemList;
+    let result = myCache.get('options');
+    return { itemList, result };
   };
 
   checkamount = async id => {

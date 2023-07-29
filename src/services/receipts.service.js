@@ -36,8 +36,19 @@ class ReceiptsService {
           option,
           finditem.price * amount,
         );
+        const optiondetail = orderlog.options
+          .map(op => {
+            if (finditem.option_id == op.id) {
+              return op;
+            } else return null;
+          })
+          .filter(item => item !== null);
 
-        totalprice = totalprice + finditem.price * amount;
+        const optionprice =
+          optiondetail[0].extra_price * option.extra_price +
+          optiondetail[0].shot_price * option.shot_price;
+
+        totalprice = totalprice + finditem.price * amount + optionprice;
       }
 
       return {

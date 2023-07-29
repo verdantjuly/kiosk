@@ -8,9 +8,9 @@ class OptionsService {
   makeoption = async (extra_price, shot_price, hot) => {
     const messages = new Messages('옵션 추가');
     try {
-      if (!extra_price) {
+      if (extra_price == undefined) {
         return noextra.nosubject();
-      } else if (!shot_price) {
+      } else if (shot_price == undefined) {
         return noshot.nosubject();
       } else if (hot == undefined) {
         return nohot.nosubject();

@@ -3,6 +3,8 @@ import itemsRouter from './routes/items.route.js';
 import order_itemsRouter from './routes/order_items.route.js';
 import receiptsRouter from './routes/receipts.route.js';
 import optionsRouter from './routes/options.route.js';
+import Options from './db/models/options.js';
+import myCache from './cache.js';
 
 export class ExpressApp {
   app = express();
@@ -12,8 +14,15 @@ export class ExpressApp {
     this.setAppRouter();
   }
 
-  setAppSettings = () => {
+  setAppSettings = async () => {
     this.app.use(express.json());
+    const options = await Options.findAll();
+    const success = myCache.set('options', options, 10000);
+    if (success) {
+      console.log('cache success');
+    } else {
+      console.log('cache failed');
+    }
   };
   setAppRouter = () => {
     this.app.use(

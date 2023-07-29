@@ -44,17 +44,58 @@ class ItemsService {
     try {
       if (category == 'all') {
         const allItemList = await this.itemsRepository.getAllItemList();
+        const finalList = allItemList.allItemList.map(item => {
+          const option = allItemList.result
+            .map(item2 => {
+              if (item.option_id == item2.id) {
+                return item2;
+              } else return null;
+            })
+            .filter(item3 => item3 !== null);
+          return {
+            id: item.id,
+            name: item.name,
+            option_id: item.option_id,
+            option: option,
+            price: item.price,
+            type: item.type,
+            amount: item.amount,
+            createdAt: item.createdAt,
+            updatedAt: item.updatedAt,
+          };
+        });
+
         return {
           status: 200,
           message: '전체 상품이 조회되었습니다.',
-          list: allItemList,
+          list: finalList,
         };
       } else {
         const itemList = await this.itemsRepository.getItemList(category);
+        const finalList = itemList.itemList.map(item => {
+          const option = itemList.result
+            .map(item2 => {
+              if (item.option_id == item2.id) {
+                return item2;
+              } else return null;
+            })
+            .filter(item3 => item3 !== null);
+          return {
+            id: item.id,
+            name: item.name,
+            option_id: item.option_id,
+            option: option,
+            price: item.price,
+            type: item.type,
+            amount: item.amount,
+            createdAt: item.createdAt,
+            updatedAt: item.updatedAt,
+          };
+        });
         return {
           status: 200,
           message: `${category} 타입의 상품이 조회되었습니다.`,
-          list: itemList,
+          list: finalList,
         };
       }
     } catch (err) {

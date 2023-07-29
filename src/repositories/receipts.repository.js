@@ -3,6 +3,7 @@ import Item_Order_Customers from '../db/models/item_order_customers.js';
 import Items from '../db/models/items.js';
 import { Transaction } from 'sequelize';
 import sequelize from '../db/sequelize.js';
+import myCache from '../cache.js';
 
 class ReceiptsRepository {
   buy = async () => {
@@ -18,7 +19,8 @@ class ReceiptsRepository {
       option,
       price,
     });
-    return order;
+    let options = myCache.get('options');
+    return { order, options };
   };
   finditem = async item_id => {
     const finditem = await Items.findByPk(item_id);
