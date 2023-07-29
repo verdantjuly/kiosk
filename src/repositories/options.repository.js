@@ -13,5 +13,8 @@ class OptionsRepository {
     }
     return option;
   };
+  getoptions = async () => {
+    const options = await Options.findAll();
+  };
 }
 export default OptionsRepository;
