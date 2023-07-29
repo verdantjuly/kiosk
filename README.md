@@ -1,3 +1,32 @@
+# ERD
+
+![ERD](https://github.com/verdantjuly/kiosk/assets/131671804/de6d6d2d-bfc1-4983-9770-9f624f42c6cb)
+
+* 테이블의 설명
+   - item : 상품 테이블
+   - option :  상품에 대한 옵션 테이블
+   - order_item : 발주 테이블
+   - item_order_customer : 주문 상세 테이블
+   - order_customer : 주문 테이블
+
+* 각 amount 에 대한 설명
+   - item : 재고
+   - item_order_customer: 주문 수량
+   - order_item : 발주 수량
+  
+* option
+    - extra_price
+        - 상품의 extra 사이즈 선택시 추가될 요금 (0일 경우 선택 불가)
+    - shot_price
+        - 상품의 shot 추가 선택시 추가될 요금 (0일 경우 추가 불가)
+    - hot
+        - hot, ice 선택 여부 (true일 경우 hot선택 가능) (false일 경우는 ice만 가능)
+* item
+    - type
+        - 해당 상품의 type을 나타냅니다. (”coffee”, “juice”, “food”, …)
+
+# API 예시
+
 ## items
 
 상품 추가 API  
@@ -36,7 +65,7 @@ PATCH api/receipts/1
 상품 옵션 추가 API
 POST api/items/1/options
 
-## Directory Structure
+# Directory Structure
 
 ```
 kiosk
