@@ -1,10 +1,13 @@
 import Messages from './message.js';
 import ItemsRepository from '../repositories/items.repository.js';
 import Enum from '../db/models/enum.js';
+import myCache from '../cache.js';
+
 const noid = new Messages('정확한 상품 id');
 const noname = new Messages('이름');
 const noprice = new Messages('가격');
 const nooption = new Messages('정확한 옵션');
+
 class ItemsService {
   itemsRepository = new ItemsRepository();
   makeItem = async (name, price, type, option_id) => {
@@ -111,6 +114,7 @@ class ItemsService {
     try {
       const checkItem = await this.itemsRepository.checkamount(id);
       if (checkItem.amount > 0) {
+        myCache.set('removeid', id, 10000);
         return {
           status: 200,
           message: '현재 수량이 남아있습니다. 삭제하시겠습니까?',
@@ -128,7 +132,8 @@ class ItemsService {
   answerRemoveItem = async (id, answer) => {
     const messages = new Messages('상품 삭제');
     try {
-      if (answer == '예') {
+      const removeid = myCache.get('removeid');
+      if (answer == '예' && removeid == id) {
         const removeItem = await this.itemsRepository.removeItem(id);
         if (removeItem) {
           return messages.status200();
