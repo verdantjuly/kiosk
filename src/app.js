@@ -3,12 +3,10 @@ import itemsRouter from './routes/items.route.js';
 import order_itemsRouter from './routes/order_items.route.js';
 import receiptsRouter from './routes/receipts.route.js';
 import optionsRouter from './routes/options.route.js';
-import OptionsRepository from './repositories/options.repository.js';
-import myCache from './cache.js';
+import cacheinit from './cacheinit.js';
 
 export class ExpressApp {
   app = express();
-  optionsRepository = new OptionsRepository();
   constructor() {
     this.setAppSettings();
     this.setAppRouter();
@@ -16,13 +14,7 @@ export class ExpressApp {
 
   setAppSettings = async () => {
     this.app.use(express.json());
-    const options = await this.optionsRepository.getoptions();
-    const success = myCache.set('options', options, 10000);
-    if (success) {
-      console.log('cache success');
-    } else {
-      console.log('cache failed');
-    }
+    cacheinit();
   };
   setAppRouter = () => {
     this.app.use(

@@ -112,9 +112,13 @@ class ItemsService {
   removeItem = async id => {
     const messages = new Messages('상품 삭제');
     try {
+      const findid = await this.itemsRepository.findid(id);
+      if (!findid) {
+        return noid.nosubject();
+      }
       const checkItem = await this.itemsRepository.checkamount(id);
       if (checkItem.amount > 0) {
-        myCache.set('removeid', id, 10000);
+        myCache.set(`removeitem${id}`, id, 10000);
         return {
           status: 200,
           message: '현재 수량이 남아있습니다. 삭제하시겠습니까?',
@@ -132,7 +136,11 @@ class ItemsService {
   answerRemoveItem = async (id, answer) => {
     const messages = new Messages('상품 삭제');
     try {
-      const removeid = myCache.get('removeid');
+      const findid = await this.itemsRepository.findid(id);
+      if (!findid) {
+        return noid.nosubject();
+      }
+      const removeid = myCache.get(`removeitem${id}`);
       if (answer == '예' && removeid == id) {
         const removeItem = await this.itemsRepository.removeItem(id);
         if (removeItem) {
@@ -147,7 +155,7 @@ class ItemsService {
   };
   editItem = async (id, name, price) => {
     const messages = new Messages('상품 수정');
-    const findid = await this.order_itemRepository.findid(item_id);
+    const findid = await this.itemsRepository.findid(id);
     try {
       if (!findid) {
         return noid.nosubject();

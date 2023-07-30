@@ -3,8 +3,8 @@ import Options from '../db/models/options.js';
 import myCache from '../cache.js';
 
 class ItemsRepository {
-  findid = async item_id => {
-    const findid = await Items.findByPk(item_id);
+  findid = async id => {
+    const findid = await Items.findByPk(id);
     return findid;
   };
 
