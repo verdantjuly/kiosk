@@ -3,7 +3,6 @@ import itemsRouter from './routes/items.route.js';
 import order_itemsRouter from './routes/order_items.route.js';
 import receiptsRouter from './routes/receipts.route.js';
 import optionsRouter from './routes/options.route.js';
-import cacheinit from './cacheinit.js';
 
 export class ExpressApp {
   app = express();
@@ -14,7 +13,6 @@ export class ExpressApp {
 
   setAppSettings = async () => {
     this.app.use(express.json());
-    cacheinit();
   };
   setAppRouter = () => {
     this.app.use(

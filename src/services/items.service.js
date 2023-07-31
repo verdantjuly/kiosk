@@ -2,7 +2,6 @@ import Messages from './message.js';
 import ItemsRepository from '../repositories/items.repository.js';
 import Enum from '../db/models/enum.js';
 import myCache from '../cache.js';
-
 const noid = new Messages('정확한 상품 id');
 const noname = new Messages('이름');
 const noprice = new Messages('가격');
@@ -47,61 +46,36 @@ class ItemsService {
     try {
       if (category == 'all') {
         const allItemList = await this.itemsRepository.getAllItemList();
-        const finalList = allItemList.allItemList.map(item => {
-          const option = allItemList.result
-            .map(item2 => {
-              if (item.option_id == item2.id) {
-                return item2;
-              } else return null;
-            })
-            .filter(item3 => item3 !== null);
-          return {
-            id: item.id,
-            name: item.name,
-            option_id: item.option_id,
-            option: option,
-            price: item.price,
-            type: item.type,
-            amount: item.amount,
-            createdAt: item.createdAt,
-            updatedAt: item.updatedAt,
-          };
+
+        const list = allItemList.map(item => {
+          const option = myCache.get(`option_${item.option_id}`);
+          item.option = option;
+
+          return item;
         });
 
         return {
           status: 200,
           message: '전체 상품이 조회되었습니다.',
-          list: finalList,
+          list,
         };
       } else {
         const itemList = await this.itemsRepository.getItemList(category);
-        const finalList = itemList.itemList.map(item => {
-          const option = itemList.result
-            .map(item2 => {
-              if (item.option_id == item2.id) {
-                return item2;
-              } else return null;
-            })
-            .filter(item3 => item3 !== null);
-          return {
-            id: item.id,
-            name: item.name,
-            option_id: item.option_id,
-            option: option,
-            price: item.price,
-            type: item.type,
-            amount: item.amount,
-            createdAt: item.createdAt,
-            updatedAt: item.updatedAt,
-          };
+
+        const list = itemList.map(item => {
+          const option = myCache.get(`option_${item.option_id}`);
+          item.option = option;
+          return item;
         });
+
         return {
           status: 200,
           message: `${category} 타입의 상품이 조회되었습니다.`,
-          list: finalList,
+          list,
         };
       }
     } catch (err) {
+      console.log(err);
       return {
         status: 400,
         message: '상품 조회에 실패하였습니다.',

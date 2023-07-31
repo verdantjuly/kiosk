@@ -1,6 +1,7 @@
 import Messages from './message.js';
 import OptionsRepository from '../repositories/options.repository.js';
 import myCache from '../cache.js';
+import CacheInit from '../cacheinit.js';
 
 const noextra = new Messages('정확한 extra_price');
 const noshot = new Messages('정확한 shot_price');
@@ -8,6 +9,7 @@ const nohot = new Messages('정확한 hot 여부');
 const noid = new Messages('정확한 option id');
 
 class OptionsService {
+  cacheinit = new CacheInit();
   optionsRepository = new OptionsRepository();
   makeoption = async (extra_price, shot_price, hot) => {
     const messages = new Messages('옵션 추가');
@@ -26,6 +28,7 @@ class OptionsService {
         hot,
       );
       if (option) {
+        await this.cacheinit.cacheinit();
         return messages.status200();
       } else {
         return messages.status400();
@@ -57,6 +60,7 @@ class OptionsService {
         id,
       );
       if (option) {
+        await this.cacheinit.cacheinit();
         return messages.status200();
       } else {
         return messages.status400();
@@ -78,6 +82,7 @@ class OptionsService {
       if (answer == '예' && removeoption == id) {
         const option = await this.optionsRepository.answerremoveoption(id);
         if (option) {
+          await this.cacheinit.cacheinit();
           return messages.status200();
         } else {
           return messages.status400();

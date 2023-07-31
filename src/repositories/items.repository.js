@@ -25,17 +25,16 @@ class ItemsRepository {
   };
 
   getAllItemList = async () => {
-    let allItemList = await Items.findAll();
-    let result = myCache.get('options');
-    return { allItemList, result };
+    let allItemList = await Items.findAll({ raw: true });
+    return allItemList;
   };
 
   getItemList = async category => {
     const itemList = await Items.findAll({
       where: { type: category },
+      raw: true,
     });
-    let result = myCache.get('options');
-    return { itemList, result };
+    return itemList;
   };
 
   checkamount = async id => {

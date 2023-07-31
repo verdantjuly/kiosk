@@ -2,10 +2,12 @@ import dotenv from 'dotenv';
 import Http from 'http';
 import { ExpressApp } from './app.js';
 import sequelize from './db/sequelize.js';
+import CacheInit from './cacheinit.js';
 
 dotenv.config();
 
 export class Server {
+  cacheinit = new CacheInit();
   expressApp = new ExpressApp();
   httpServer;
 
@@ -29,6 +31,7 @@ export class Server {
   runServer = async () => {
     try {
       await this.databaseConnection();
+      await this.cacheinit.cacheinit();
       return this.serverListen();
     } catch (e) {
       return this.serverErrorHandler(e);

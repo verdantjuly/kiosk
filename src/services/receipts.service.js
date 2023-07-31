@@ -1,5 +1,6 @@
 import Messages from './message.js';
 import ReceiptsRepository from '../repositories/receipts.repository.js';
+import myCache from '../cache.js';
 
 const noid = new Messages('정확한 상품 id');
 const noamount = new Messages('정확한 수량');
@@ -36,17 +37,12 @@ class ReceiptsService {
           option,
           finditem.price * amount,
         );
-        const optiondetail = orderlog.options
-          .map(op => {
-            if (finditem.option_id == op.id) {
-              return op;
-            } else return null;
-          })
-          .filter(item => item !== null);
+
+        const optiondetail = myCache.get(`option_${finditem.option_id}`);
 
         const optionprice =
-          optiondetail[0].extra_price * option.extra_price +
-          optiondetail[0].shot_price * option.shot_price;
+          optiondetail.extra_price * option.extra_price +
+          optiondetail.shot_price * option.shot_price;
 
         totalprice = totalprice + finditem.price * amount + optionprice;
       }

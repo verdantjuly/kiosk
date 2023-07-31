@@ -80,11 +80,7 @@ class Order_ItemsService {
         if (pendingToCompleted == 1) {
           return messages.status200();
         }
-      } else if (
-        (prevstate.state == 2 && state == 'CANCELED') ||
-        (prevstate.state == 2 && state == 'PENDING') ||
-        (prevstate.state == 2 && state == 'ORDERED')
-      ) {
+      } else if (prevstate.state == 2 && state !== 'COMPLETED') {
         const item = await this.order_itemRepository.ItemChecker(item_id);
         const updateamount = item.amount - prevstate.amount;
         if (updateamount < 0) {
