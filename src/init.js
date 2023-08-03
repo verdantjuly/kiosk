@@ -1,12 +1,11 @@
-import dotenv from 'dotenv';
 import Http from 'http';
 import { ExpressApp } from './app.js';
 import sequelize from './db/sequelize.js';
 import CacheInit from './cacheinit.js';
-
-dotenv.config();
+import Env from '../env.js';
 
 export class Server {
+  env = new Env();
   cacheinit = new CacheInit();
   expressApp = new ExpressApp();
   httpServer;
@@ -25,7 +24,7 @@ export class Server {
   };
 
   sequelizeSync = () => {
-    return sequelize.sync({ force: false });
+    return sequelize.sync({ force: true });
   };
 
   runServer = async () => {
@@ -39,9 +38,10 @@ export class Server {
   };
 
   serverListen = () => {
-    const { PORT: port, HOST: host } = process.env;
-    return this.httpServer.listen(port, () => {
-      console.log(`Server is running on: http://${host}:${port}`);
+    return this.httpServer.listen(this.env.port, () => {
+      console.log(
+        `Server is running on: http://${this.env.host}:${this.env.port}`,
+      );
     });
   };
 
