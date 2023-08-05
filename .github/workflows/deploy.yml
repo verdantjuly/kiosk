@@ -42,7 +42,7 @@ jobs:
         run: yarn run build
 
       - name: 📦 빌드한 코드를 압축
-        run: zip -r verantjuly.zip ./dist ./scripts ./appspec.yml ./.env ./package.json
+        run: zip -r verdantjuly.zip ./dist ./scripts ./appspec.yml ./.env ./package.json
 
       - name: 🌎 AWS에 접속
         uses: aws-actions/configure-aws-credentials@v1
