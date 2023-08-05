@@ -11,6 +11,7 @@ class Env {
     this._dialect = 'mysql';
     this._host = process.env.HOST;
     this._port = process.env.PORT;
+    this._testdatabase = process.env.TEST_DATABASE;
   }
 
   get username() {
@@ -36,6 +37,9 @@ class Env {
   }
   get port() {
     return this._port;
+  }
+  get testdatabase() {
+    return this._testdatabase;
   }
 }
 
