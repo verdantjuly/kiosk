@@ -1,0 +1,39 @@
+name: build
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-check:
+    runs-on: ubuntu-22.04
+
+    strategy:
+      matrix:
+        node-version: [18.17.0]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - name: ✅ 체크아웃 source code.
+        uses: actions/checkout@v3
+
+      - name: ⚙️ ${{ matrix.node-version }} 버전의 노드로 세팅합니다.
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: ⚙️ 환경변수를 설정합니다.
+        working-directory: ./
+        run: |
+          pwd
+          touch .env
+          echo DATABASE_URL=${{ secrets.MYSQL_HOST }} >> .env
+          cat .env
+
+      - name: ✨ 패키지 설치
+        working-directory: ./
+        run: yarn
+
+      - name: ✨ 빌드 과정을 시작
+        working-directory: ./
+        run: yarn run build
