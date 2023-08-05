@@ -18,16 +18,12 @@ jobs:
         node-version: [18.x]
 
     steps:
+      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
-        run: |
-          echo "MYSQL_USERNAME=$MYSQL_USERNAME" >> .env
-          echo "MYSQL_PASSWORD=$MYSQL_PASSWORD" >> .env
-          echo "MYSQL_DATABASE=$MYSQL_DATABASE" >> .env
-          echo "TEST_DATABASE=$TEST_DATABASE" >> .env
-          echo "MYSQL_HOST=$MYSQL_HOST" >> .env
-          echo "MYSQL_PORT=$MYSQL_PORT" >> .env
-          echo "HOST=$HOST" >> .env
-          echo "PORT=$PORT" >> .env
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
 
         env:
           MYSQL_USERNAME: ${{secrets.MYSQL_USERNAME}}
@@ -39,5 +35,13 @@ jobs:
           HOST: ${{secrets.HOST}}
           PORT: ${{secrets.PORT}}
 
-      - run: npm ci
-      - run: npm test
+      - run: echo "MYSQL_USERNAME=$MYSQL_USERNAME" >> .env
+          echo "MYSQL_PASSWORD=$MYSQL_PASSWORD" >> .env
+          echo "MYSQL_DATABASE=$MYSQL_DATABASE" >> .env
+          echo "TEST_DATABASE=$TEST_DATABASE" >> .env
+          echo "MYSQL_HOST=$MYSQL_HOST" >> .env
+          echo "MYSQL_PORT=$MYSQL_PORT" >> .env
+          echo "HOST=$HOST" >> .env
+          echo "PORT=$PORT" >> .env
+          npm ci
+          npm test
