@@ -25,7 +25,7 @@ export class Server {
 
   sequelizeSync = () => {
     if (process.env.NODE_ENV === 'development')
-      return sequelize.sync({ force: true });
+      return sequelize.sync({ force: false });
   };
 
   runServer = async () => {
