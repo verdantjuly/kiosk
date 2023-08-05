@@ -1,0 +1,62 @@
+# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-22.04
+
+    strategy:
+      matrix:
+        node-version: [18.17.0]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - name: ✅ 체크아웃 source code.
+        uses: actions/checkout@v3
+
+      - name: ⚙️ ${{ matrix.node-version }} 버전의 노드로 세팅합니다.
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: ⚙️ 환경변수를 설정합니다.
+        working-directory: ./
+        run: |
+          pwd
+          touch .env
+          echo DATABASE_URL=${{ secrets.MYSQL_HOST }} >> .env
+          cat .env
+
+      - name: ✨ 패키지 설치
+        working-directory: ./
+        run: yarn
+
+      - name: ✨ 빌드 과정을 시작
+        working-directory: ./
+        run: yarn run build
+
+      - name: 📦 빌드한 코드를 압축
+        run: zip -r verantjuly.zip ./dist ./scripts ./appspec.yml ./.env ./package.json
+
+      - name: 🌎 AWS에 접속
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: 🦖 S3에 압축된 서버 코드를 업로드
+        run: aws s3 cp --region ap-northeast-2 ./verdantjuly.zip s3://verdantjuly/deploy/
+
+      - name: 🚀 AWS codeDeploy로 배포를 시작
+        run: aws deploy create-deployment
+          --application-name verdantjuly
+          --deployment-config-name CodeDeployDefault.OneAtATime
+          --deployment-group-name dev
+          --s3-location bucket=verdantjuly,bundleType=zip,key=deploy/verdantjuly.zip
