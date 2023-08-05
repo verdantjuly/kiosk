@@ -115,6 +115,21 @@ class OptionsService {
       return messages.status400();
     }
   };
+  getoptions = async () => {
+    const messages = new Messages('옵션 전체 조회');
+    try {
+      const list = await this.optionsRepository.getoptions();
+
+      return {
+        status: 200,
+        message: '옵션 전체 조회에 성공하였습니다.',
+        list,
+      };
+    } catch (err) {
+      console.log(err);
+      return messages.status400();
+    }
+  };
 }
 
 export default OptionsService;
