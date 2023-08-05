@@ -16,7 +16,6 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
       - uses: actions/checkout@v3
@@ -25,6 +24,24 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - run: npm ci
-      - run: npm run build --if-present
-      - run: npm test
+
+        env:
+          MYSQL_USERNAME: ${{secrets.MYSQL_USERNAME}}
+          MYSQL_PASSWORD: ${{secrets.MYSQL_PASSWORD}}
+          MYSQL_DATABASE: ${{secrets.MYSQL_DATABASE}}
+          TEST_DATABASE: ${{secrets.TEST_DATABASE}}
+          MYSQL_HOST: ${{secrets.MYSQL_HOST}}
+          MYSQL_PORT: ${{secrets.MYSQL_PORT}}
+          HOST: ${{secrets.HOST}}
+          PORT: ${{secrets.PORT}}
+
+      - run: echo "MYSQL_USERNAME=$MYSQL_USERNAME" >> .env
+          echo "MYSQL_PASSWORD=$MYSQL_PASSWORD" >> .env
+          echo "MYSQL_DATABASE=$MYSQL_DATABASE" >> .env
+          echo "TEST_DATABASE=$TEST_DATABASE" >> .env
+          echo "MYSQL_HOST=$MYSQL_HOST" >> .env
+          echo "MYSQL_PORT=$MYSQL_PORT" >> .env
+          echo "HOST=$HOST" >> .env
+          echo "PORT=$PORT" >> .env
+          npm ci
+          npm test
