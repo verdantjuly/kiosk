@@ -38,6 +38,10 @@ class OptionsControlller {
     const { status, message } = await this.optionsService.removeoption(id);
     return res.status(status).json({ message });
   };
+  getoptions = async (req, res) => {
+    const { status, message, list } = await this.optionsService.getoptions();
+    return res.status(status).json({ message, list });
+  };
 }
 
 export default OptionsControlller;
