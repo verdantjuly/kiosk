@@ -2,7 +2,7 @@ import Http from 'http';
 import { ExpressApp } from './app.js';
 import sequelize from './db/sequelize.js';
 import CacheInit from './cacheinit.js';
-import Env from '../env.js';
+import Env from './env.js';
 
 export class Server {
   env = new Env();
