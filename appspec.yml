@@ -1,5 +1,5 @@
-version: 0.0
-os: linux
+version: 5.19.0
+os: Linux
 files:
   - source: /
     destination: /home/ubuntu/build
