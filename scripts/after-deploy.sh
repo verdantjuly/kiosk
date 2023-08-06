@@ -1,9 +1,7 @@
 #!/bin/bash
-verdantjuly=/home/ubuntu/verdantjuly
+REPOSITORY=/home/ubuntu/build
 
-cd $verdantjuly
+cd $REPOSITORY
 
-sudo rm -r dist
-sudo npm run build
 sudo /usr/bin/yarn
-sudo /usr/bin/pm2 start "npm run start"
+sudo /usr/bin/pm2 start dist
