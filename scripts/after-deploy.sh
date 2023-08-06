@@ -1,4 +1,6 @@
-cd /home/ubuntu/kiosk
+#!bin/bash
 
-sudo yarn run build
-sudo pm2 start "npm run start"
+cd /home/ubuntu/build
+
+sudo /usr/bin/yarn
+sudo /usr/bin/pm2 start dist
