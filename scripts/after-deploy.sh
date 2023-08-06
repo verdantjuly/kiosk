@@ -1,7 +1,4 @@
-#!/bin/bash
-REPOSITORY=/home/ubuntu/build
+cd /home/ubuntu/kiosk
 
-cd $REPOSITORY
-
-sudo /usr/bin/yarn
-sudo /usr/bin/pm2 start dist
+sudo yarn run build
+sudo pm2 start "npm run start"
