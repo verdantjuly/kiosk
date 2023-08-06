@@ -27,7 +27,7 @@ export class ExpressApp {
     );
 
     this.app.use('/ping', (req, res, next) => {
-      return res.status(200).json({ message: 'pong end' });
+      return res.status(200).json({ message: 'pong 3' });
     });
   };
 }
