@@ -8,6 +8,5 @@ files:
 
 hooks:
   AfterInstall:
-    - location: /home/ubuntu/kiosk/scripts/after-deploy.sh
-      timeout: 300
+    - location: scripts/after-deploy.sh
       runas: ubuntu
