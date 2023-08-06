@@ -1,15 +1,9 @@
-version: 5.19.0
-os: Linux
+version: 0.0
+os: linux
 files:
-  - source: /
+  - source: /home/ubuntu/kiosk
     destination: /home/ubuntu/build
     overwrite: yes
-
-permissions:
-  - object: /home/ubuntu
-    pattern: '**'
-    owner: ubuntu
-    group: ubuntu
 
 hooks:
   AfterInstall:
