@@ -4,6 +4,7 @@ files:
   - source: /home/ubuntu/kiosk
     destination: /home/ubuntu/build
     overwrite: yes
+    file_exists_behavior: OVERWRITE
 
 hooks:
   AfterInstall:
