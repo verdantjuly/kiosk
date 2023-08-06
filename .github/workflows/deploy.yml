@@ -27,10 +27,27 @@ jobs:
 
       - name: ⚙️ 환경변수를 설정합니다.
         working-directory: ./
+        env:
+          MYSQL_USERNAME: ${{secrets.MYSQL_USERNAME}}
+          MYSQL_PASSWORD: ${{secrets.MYSQL_PASSWORD}}
+          MYSQL_DATABASE: ${{secrets.MYSQL_DATABASE}}
+          TEST_DATABASE: ${{secrets.TEST_DATABASE}}
+          MYSQL_HOST: ${{secrets.MYSQL_HOST}}
+          MYSQL_PORT: ${{secrets.MYSQL_PORT}}
+          HOST: ${{secrets.HOST}}
+          PORT: ${{secrets.PORT}}
+
         run: |
           pwd
           touch .env
-          echo DATABASE_URL=${{ secrets.MYSQL_HOST }} >> .env
+          echo "MYSQL_USERNAME=$MYSQL_USERNAME" >> .env
+          echo "MYSQL_PASSWORD=$MYSQL_PASSWORD" >> .env
+          echo "MYSQL_DATABASE=$MYSQL_DATABASE" >> .env
+          echo "TEST_DATABASE=$TEST_DATABASE" >> .env
+          echo "MYSQL_HOST=$MYSQL_HOST" >> .env
+          echo "MYSQL_PORT=$MYSQL_PORT" >> .env
+          echo "HOST=$HOST" >> .env
+          echo "PORT=$PORT" >> .env
           cat .env
 
       - name: ✨ 패키지 설치

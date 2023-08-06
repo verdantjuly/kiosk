@@ -2,5 +2,5 @@
 
 cd /home/ubuntu/build
 
-sudo /usr/bin/yarn
-sudo /usr/bin/pm2 start "npm run start"
+sudo npm install
+sudo pm2 start "npm run start" 
