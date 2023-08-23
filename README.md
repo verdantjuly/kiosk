@@ -2,10 +2,6 @@
 
 A-9 이다영
 
-# 배포 주소
-
-http://54.180.31.14
-
 # ERD
 
 ![ERD](https://github.com/verdantjuly/kiosk/assets/131671804/de6d6d2d-bfc1-4983-9770-9f624f42c6cb)
